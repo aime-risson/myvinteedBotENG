@@ -1,0 +1,41 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+
+  "name": "VinBot pour Vinted avec Auto-Repost, Auto-Follow...",
+  "short_name": "VinBot - Bot Vinted",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "VinBot est un assistant pour vous aider à développer vos ventes sur Vinted en quelques clics.",
+  "icons": {
+    "16": "icons/icon.png",
+    "38": "icons/icon.png",
+    "128": "icons/icon.png",
+    "256": "icons/icon.png"
+  },
+
+  "browser_action": {
+    "default_icon": "icons/icon.png",
+    "default_title": "VinBot - Bot Vinted"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.vinted.fr/*",
+        "*://*.vinted.com/*",
+        "*://*.vinted.be/*",
+        "*://*.vinted.it/*",
+        "*://*.vinted.co.uk/*"
+      ],
+      "js": ["js/jquery.min.js", "js/script.js"],
+      "css": ["css/style.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "tabs", "<all_urls>"],
+  "background": {
+    "persistent": true,
+    "scripts": ["js/jquery.min.js", "src/bg/background.js"]
+  },
+
+  "web_accessible_resources": ["js/*", "src/browser_action/browser_action.html"]
+}

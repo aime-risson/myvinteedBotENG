@@ -1,0 +1,178 @@
+<html>
+<head>
+ <link rel="stylesheet" href="css/font-awesome.min.css" />
+ <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <link rel="stylesheet" type="text/css" href="css/toastr.min.css"/>
+
+ <link rel="stylesheet" type="text/css" href="css/style.css"/>
+ <meta charset="utf-8">
+
+
+ <link rel="preconnect" href="https://fonts.gstatic.com">
+ <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+ </head>
+<body ng-app="myapp" ng-controller="ctrl" style="" >
+<div class="">
+
+<span ng-click="closePopup()" class="closeCross">
+    &times;
+</span>
+
+    <div ng-class="{'text-center':!user}" style="background-color: white; padding:17px 25px; ">
+      <a href="browser_action.html" style="text-decoration:none"> <img style="height:20px; width: 70px;"  src="../../../icons/logo.png" />  </a>
+
+
+    <span class="dropdown" ng-show="user" style="float:right; margin-top:-22px; margin-right:18px;">
+       <span class="dropdown-toggle" style=" cursor:pointer; font-size:15px" data-toggle="dropdown"> {{user.fname+' '+user.lname}} </span>
+
+       <div class="dropdown-menu" style="">
+         <li> <a href="{{baseurl}}subscription" target="_blank"> Abonnement </a> </li>
+          <li> <a href="#" ng-click="logout()"> Se déconnecter </a> </li>
+
+       </div>
+
+    </span>
+
+   </div>
+     <div class="container">
+  <div class="" style="font-size:14px; padding:10px 15px 30px 15px;">
+
+
+	 <div ng-show="!user">
+
+
+	    <div ng-show="!user.subscription">
+
+
+   <div ng-show="s.storeId" style="margin-bottom:50px;">
+
+
+     <div class="row">
+       <div class="col-4 moreInfo">
+
+          <div> <i class="fa fa-users"> </i> {{s.store.followers_count}} </div>
+
+          <div> <i class="fa fa-user-plus"> </i> {{s.store.following_count}} </div>
+
+          <div> <i class="fa fa-globe"> </i> {{s.store.country_code}} </div>
+
+        </div>
+
+       <div class="col-4" style="padding:0px; display:flex; justify-content:center"><div  style="width:100px; border-radius: 50%; box-shadow:0px 2px 4px #ddd; height:100px; background-image:URL('{{s.store.photo.url}}'); background-size:cover"> </div> </div>
+       <div class="col-4 moreInfo">
+
+         <div> <i class="fa fa-credit-card"> </i> {{s.store.negative_feedback_count+s.store.neutral_feedback_count+s.store.positive_feedback_count}} </div>
+
+         <div> <i class="fa fa-shopping-cart"> </i> {{s.store.taken_item_count}} </div>
+
+         <div> <i class="fa fa-suitcase"> </i> {{s.store.item_count}} </div>
+
+
+        </div>
+
+
+     </div>
+     <h4 class="text-center" style="margin-top:-20px;"> @{{s.store.login}} </h4>
+
+  <div ng-hide="s.loggedInUserId == s.store.id">
+    <div class="row" style="margin:15px 0px 15px 0px; ">
+       <div class="col-6" style="padding-left:0px; padding-right:6px;">
+     <button class="btn btn-block btn-primary" ng-click="followStore()" ng-class="{'disabled':s.store.is_favourite}"> {{ s.store.is_favourite ? 'Suivi' : 'Follow' }} </button> </div>
+     <div class="col-6" style="padding-right:0px; padding-left:6px;">
+     <button class="btn btn-block btn-primary " ng-click="messageStore(s.store)"> Message </button>
+   </div>
+   </div>
+
+
+     <button class="btn btn-outline-primary btn-block" ng-click="followStoreCustomers()"> Follow the buyers of this store </button>
+     <button class="btn btn-outline-primary btn-block" ng-click="followStoreFollowers()" style="margin:10px 0px;">Follow the followers of this store </button>
+    <button class="btn btn-outline-primary btn-block" ng-click="followStoreProducts()"> Like all the articles in the store </button>
+
+</div>
+
+
+<div ng-show="s.loggedInUserId == s.store.id">
+
+
+
+   <button class="btn btn-primary btn-block" ng-click="bumpAllListings()">Bump all my listing </button>
+   <button class="btn btn-outline-primary btn-block" ng-click="unfollowEveryOne()" style="margin:10px 0px;"> Unfollow everyone </button>
+   <button class="btn btn-outline-primary btn-block" ng-click="messageAllFollowers()">Send a message to all my followers </button>
+  <button class="btn btn-outline-primary btn-block" ng-click="unfavouriteEverything()"> Unfavorite everything </button>
+
+</div>
+
+<div class="form-group" style="margin-top:20px;">
+   <label> Write a message : </label>
+
+   <textarea class="form-control" ng-model="settings.message" style="font-size:14px;" ng-change="saveSettings()"> </textarea>
+
+  <div style="margin-top:5px; font-size:12px;">
+     Add a personal variable :
+   <a style="margin-left:5px;" href="#" ng-click="settings.message = settings.message+' '+'{{first_name}}'; saveSettings()"> "Prénom" </a>
+ </div>
+
+</div>
+
+  <span style="margin-top:20px; display:inline-block" ng-if="s.status"> {{s.status}} </span>
+   </div>
+
+   <div ng-hide="s.storeId">
+     <div class="alert alert-primary text-center">Go on a vinted profile and click again on the extension. </div>
+     <div style="width:100%;height:0;padding-bottom:97%;position:relative;"><iframe src="https://giphy.com/embed/j6aoUHK5YiJEc" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/mrw-friday-rei-j6aoUHK5YiJEc"></a></p>
+
+   </div>
+
+
+
+
+
+
+
+
+
+		<div style="text-align:left; display: none;font-size:14px;" ng-show="user.subscription!='trial'">
+
+               <h2 style="margin-bottom:10px; font-size:18px"> Abonnement </h2>
+               <table class="table table-bordered table-condensed table-striped" style="font-size:12px">
+			       <thead>
+				     <tr>
+					  <th> Abonnement </th>
+					  <th> Montant </th>
+					  <th> Date </th>
+					  <th> Status </th>
+					  <th> Prochaine échéance </th>
+					 </tr>
+				   </thead>
+				   <tbody>
+				     <tr >
+                         <td> {{user.sub.plan.nickname}}  </td>
+                         <td> €{{user.sub.plan.amount/100}} </td>
+                         <td> {{getDate(user.sub.start_date)}} </td>
+                         <td> {{user.sub.status}} </td>
+                         <td> {{getDate(user.sub.current_period_end)}} </td>
+					 </tr>
+				   </tbody>
+			   </table>
+          </div>
+
+
+
+
+		</div>
+
+
+
+	 </div>
+
+</div>
+</div>
+</body>
+<script src="../../js/jquery.min.js"> </script>
+<script src="js/angular.min.js"> </script>
+<script src="js/popper.min.js"> </script>
+<script src="js/bootstrap.min.js"> </script>
+<script src="js/toastr.min.js"> </script>
+<script src="js/browser_action.js"> </script>
+</html>
